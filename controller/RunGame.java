@@ -1,6 +1,7 @@
 package battleship.controller;
 
 import battleship.model.*;
+import battleship.model.enums.*;
 import battleship.view.TextOutput;
 
 import java.util.Map;
