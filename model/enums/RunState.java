@@ -1,7 +1,7 @@
 package battleship.model.enums;
 
 /*
- * Defines phases of game with three steps associated with set up of the game and two steps with playing phase.
+ * Defines steps of game with three steps associated with set up phase of the game and two steps with playing phase.
  */
 
 public enum RunState {
