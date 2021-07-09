@@ -6,7 +6,8 @@ import battleship.model.enums.ShipType;
 public class FireShots {
 
     /*
-     * Takes shot coordinates and alters player and opponent's displayed boards based on if shot is a hit or miss. Also marks the corresponding ship part as hit if is not an empty part (i.e. not belonging to a ship).
+     * Takes shot coordinates and alters player and opponent's displayed boards based on if shot is a hit or miss. Also marks the corresponding ship part as hit if is not 
+     * an empty part (i.e. not belonging to a ship).
      * @param shotCoordinatesArray      location to fire on
      * @param player                    current player who fired shot
      * @return shipPart                 individual part of ship on opponent's board (or empty part) corresponding to shotCoordinatesArray location
