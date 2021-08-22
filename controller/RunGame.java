@@ -87,7 +87,7 @@ public class RunGame {
         runState = RunState.ENTER_SHOT;
         TextOutput.shoot(player);
         while (RunState.ENTER_SHOT.equals(runState)) {
-            shotCoordinatesArray = validShotArray(SCANNER.nextLine(), player); //calls error checking for shot input and assignment to ShotArray object
+            validShotArray(SCANNER.nextLine(), player); //calls error checking for shot input and assignment to ShotArray object
         }
 
         ShipPart shipPart = FireShots.Shoot(shotCoordinatesArray, player); //gets corresponding part on opponent's board
@@ -113,18 +113,16 @@ public class RunGame {
      * @return shotArray    a ShotCoordinatesArray object corresponding to valid, non-repeated user input or null if coordinates are not valid
      */
 
-    private static ShotCoordinatesArray validShotArray(String input, Player player) {
-            ShotCoordinatesArray shotCoordinatesArray = (ShotCoordinatesArray) ProcessInput.convertInput(input, CoordinatesType.SHOT);
-            if (shotCoordinatesArray == null) {
+    private static void validShotArray(String input, Player player) {
+            CoordinatesArray shotCoordinates = ProcessInput.convertInput(input, CoordinatesType.SHOT);
+            if (!(shotCoordinates instanceof ShotCoordinatesArray)) {
                 TextOutput.invalidShotFormat();
-                return null;
             }  else {
+                shotCoordinatesArray = (ShotCoordinatesArray) shotCoordinates;
                 if (FireShots.alreadyShot(shotCoordinatesArray, player)) {
                     TextOutput.alreadyShot();
-                    return null;
                 }  else {
                     runState = RunState.FIRING_SHOT;
-                    return shotCoordinatesArray;
                 }
             }
     }
@@ -174,25 +172,25 @@ public class RunGame {
     }
 
     /*
-     * Handles second step of Ship Placement phase. Gets input from user and validates. If successful, obtains ShipArray object and goes to next step. Else notifies user 
-     * and retries current step.
+     * Handles second step of Ship Placement phase. Gets input from user and validates. If successful, obtains ShipArray object and goes to next step. Else notifies user and retries current step.
      * @return RunState         If able to turn user input into ShipCoordinatesArray object, returns next step. Else returns current step
      */
 
     private static RunState errorCheckingCoordinates() {
         String line = SCANNER.nextLine();
-        shipCoordinatesArray = (ShipCoordinatesArray) ProcessInput.convertInput(line, CoordinatesType.SHIP); //if user input valid for ship placement,
-        if (shipCoordinatesArray == null) {                                                                  //returns ShipArray, else returns null
+        CoordinatesArray shipCoordinates = ProcessInput.convertInput(line, CoordinatesType.SHIP); //if user input valid for ship placement, returns ShipArray, else returns null
+        if (!(shipCoordinates instanceof ShipCoordinatesArray)) {
             TextOutput.invalidShipArrayFormat();
             return RunState.ERROR_CHECKING_COORDINATES;
         } else {
+            shipCoordinatesArray = (ShipCoordinatesArray) shipCoordinates;
             return RunState.ERROR_CHECKING_SHIP_PLACEMENT;
         }
     }
 
     /*
-     * Handles third and final step of Ship Placement phase. Attempts to place ship based on ShipCoordinatesArray. If successful, goes to first step for next ship. 
-     * Else returns error type for displaying to user and returns to second step to obtain new coordinates.
+     * Handles third and final step of Ship Placement phase. Attempts to place ship based on ShipCoordinatesArray. If successful, goes to first step for next ship. Else returns error type for displaying to user and
+     * returns to second step to obtain new coordinates.
      * @param shipType          type of ship to be placed
      * @param player            current player in ship placement phase
      * @return RunState         If successful ship placement, returns first step to place next ship. Else returns second step.
